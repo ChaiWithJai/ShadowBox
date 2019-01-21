@@ -40,7 +40,7 @@ tf.loadModel('http://localhost:5000/model.json').then(model => {
         .then((mn: any) => {
             mobilenet = mobilenetInfer(mn);
             document.getElementById('playground').style.display = 'table';
-            document.getElementById('loading-page').style.display = 'none';
+            // document.getElementById('loading-page').style.display = 'none';
             console.log('MobileNet created');
         })
         .then(() => {
@@ -70,14 +70,15 @@ tf.loadModel('http://localhost:5000/model.json').then(model => {
                 if (nothing >= 0.4) {
                     return;
                 }
+                console.log(nothing, straight, uppercut)
                 console.log(straight.toFixed(2), uppercut.toFixed(2));
-                if (uppercut > straight && uppercut >= 0.35) {
+                if (uppercut > straight && uppercut >= 0.2) {
                     console.log('%cUppercut: ' + uppercut.toFixed(2), 'color: red; font-size: 30px');
-                    detect.onKick();
+                    // detect.onKick();
                 }
-                if (straight > uppercut && straight >= 0.35) {
+                if (straight > uppercut && straight >= 0.35 && nothing <= 0.35) {
                     console.log('%cStraight Punch: ' + straight.toFixed(2), 'color: blue; font-size: 30px');
-                    detect.onPunch();
+                    // detect.onPunch();
                     return;
                 }
             }, 100);

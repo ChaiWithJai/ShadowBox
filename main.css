@@ -1,0 +1,41 @@
+@font-face {
+    font-family: circuit;
+    src: url('font/Circuit.otf') format('opentype');
+}
+  
+@font-face {
+    font-family: ttnorms;
+    src: url('font/TTNorms-Regular.otf') format('opentype');
+}
+
+#playground{
+    cursor: url('https://ionicframework.com/img/finger.png'), auto;
+    margin: 1.5rem auto;
+    background-image: linear-gradient(to right, #262626, #000000);
+    
+    height: 530px;
+    max-width: 340px;
+    border: 15px solid white;
+    border-radius: 4%; 
+    box-shadow:   0px -1px 3px rgba(190,255,255,0.5), /*top external highlight*/
+    2px 3px 3px rgba(0,0,0,0.2), /*bottom external shadow*/
+    inset 0 -1px 1px rgba(0,0,0,0.5), /*bottom internal shadow*/
+    inset 0 1px 1px rgba(255,255,255,1); /*top internal highlight*/
+    
+    /*inset 0px 3px 18px 9px rgba(241,218,210,1),
+      10px 10px 21px 3px rgba(255,216,204,1),*/
+  }
+
+  body {
+    margin: 0;
+    font-family: Helvetica, Arial, sans-serif;
+    background-color: #ce0606
+  }
+
+  h1 {
+      display: flex;
+      justify-content: center;
+      font-family: ttnorms;
+      font-weight: bold;
+      color: white;
+  }
