@@ -1,0 +1,86 @@
+const tf = require('@tensorflow/tfjs');
+const mobileNet = require('@tensorflow-models/mobilenet');
+
+navigator.mediaDevices
+    .getUserMedia({
+        video: true,
+        audio: false
+    })
+    .then(stream => {
+        video.srcObject = stream;
+    });
+
+const video = document.getElementById('cam');
+const Layer = 'global_average_pooling2d_1';
+const mobilenetInfer = m => (p) => m.infer(p, Layer);
+const canvas = document.getElementById('canvas');
+const crop = document.getElementById('crop');
+
+const ImageSize = {
+    Width: 100,
+    Height: 56
+};
+
+const grayscale = (canvas) => {
+    const imageData = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+    for (let i = 0; i < data.length; i += 4) {
+        const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+        data[i] = avg;
+        data[i + 1] = avg;
+        data[i + 2] = avg;
+    }
+    canvas.getContext('2d').putImageData(imageData, 0, 0);
+};
+
+const mobilenet = (p) => tf.Tensor<tf.Rank>;
+tf.loadModel('http://localhost:5000/model.json').then(model => {
+    mobileNet
+        .load()
+        .then((mn) => {
+            mobilenet = mobilenetInfer(mn);
+            document.getElementById('playground').style.display = 'table';
+            // document.getElementById('loading-page').style.display = 'none';
+            console.log('MobileNet created');
+        })
+        .then(() => {
+            setInterval(() => {
+                canvas.getContext('2d').drawImage(video, 0, 0);
+                crop.getContext('2d').drawImage(canvas, 0, 0, ImageSize.Width, ImageSize.Height);
+
+                crop
+                    .getContext('2d')
+                    .drawImage(
+                        canvas,
+                        0,
+                        0,
+                        canvas.width,
+                        canvas.width / (ImageSize.Width / ImageSize.Height),
+                        0,
+                        0,
+                        ImageSize.Width,
+                        ImageSize.Height
+                    );
+
+                grayscale(crop);
+                const [straight, uppercut, nothing] = Array.from((model.predict(
+                    mobilenet(tf.fromPixels(crop))
+                )).dataSync());
+                const detect = (window).Detect;
+                if (nothing >= 0.4) {
+                    return;
+                }
+                console.log(nothing, straight, uppercut)
+                console.log(straight.toFixed(2), uppercut.toFixed(2));
+                if (uppercut > straight && uppercut >= 0.2) {
+                    console.log('%cUppercut: ' + uppercut.toFixed(2), 'color: red; font-size: 30px');
+                    // detect.onKick();
+                }
+                if (straight > uppercut && straight >= 0.35 && nothing <= 0.35) {
+                    console.log('%cStraight Punch: ' + straight.toFixed(2), 'color: blue; font-size: 30px');
+                    // detect.onPunch();
+                    return;
+                }
+            }, 100);
+        });
+});

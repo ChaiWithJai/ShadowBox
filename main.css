@@ -8,6 +8,25 @@
     src: url('font/TTNorms-Regular.otf') format('opentype');
 }
 
+#punches {
+    font-family: ttnorms;
+    font-size: 18;
+    color: white;
+    font-weight: bold;
+}
+
+#uppercuts {
+    font-family: ttnorms;
+    font-size: 18;
+    color: white;
+    font-weight: bold;
+}
+
+#footer {
+    display: flex;
+    justify-content: center;
+}
+
 #playground{
     cursor: url('https://ionicframework.com/img/finger.png'), auto;
     margin: 1.5rem auto;
