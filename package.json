@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/JBhagat841/ShadowBox/issues"
   },
-  "homepage": "https://github.com/JBhagat841/ShadowBox#readme"
+  "homepage": "https://github.com/JBhagat841/ShadowBox#readme",
+  "dependencies": {
+    "react": "^16.7.0"
+  }
 }
